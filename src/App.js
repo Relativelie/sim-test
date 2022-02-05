@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './stylesheets/App.css';
-import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
-import ball from './images/ball.png';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Competitions } from './components/Competitions';
 import { Teams } from './components/Teams';
 import { Matches } from './components/Matches';
+import { Breadcumps } from './components/Breadcumps';
+
 
 export function App() {
 
@@ -15,10 +16,10 @@ export function App() {
   const [currentPaginateSheet, setCurrentPaginateSheet] = useState(1);
   const [itemsPerPaginateSheet] = useState(10);
 
-    // states for teams and contest
+  // states for teams and contest
   const [strInputValue, setStrInputValue] = useState("");
 
-    // states for matches
+  // states for matches
   const [inputDateFromValue, setInputDateFromValue] = useState("");
   const [inputDateToValue, setInputDateToValue] = useState("");
 
@@ -33,7 +34,7 @@ export function App() {
     }
   })
 
-  const changePage = (id, name, page, e) => {
+  const changePage = (name, page) => {
     setChoosenPages(choosenPages => [...choosenPages, page])
     setStrInputValue("");
     setBreadcumbs(breadcumbs => [...breadcumbs, name]);
@@ -46,7 +47,7 @@ export function App() {
     let clicedValue = e;
     let indexOfValue = breadcumbs.indexOf(clicedValue) + 1;
     setCurrentPaginateSheet(1);
-    if (clicedValue === arrayOfPages[arrayOfPages.length-1]) return;
+    if (clicedValue === arrayOfPages[arrayOfPages.length - 1]) return;
     else {
       arrayOfPages.splice(indexOfValue);
       allNameOfPages.splice(indexOfValue);
@@ -85,14 +86,14 @@ export function App() {
   // next/previous group of paginate sheets
   const changeGroupOfPaginateSheets = (e, operation, allPagesLength) => {
     e.preventDefault();
-    let dif = allPagesLength-currentPaginateSheet;
-    if (operation==="next") {
-      if (dif === 3 || dif === 2) paginate(e, currentPaginateSheet+2);
-      else paginate(e, currentPaginateSheet+3)
+    let dif = allPagesLength - currentPaginateSheet;
+    if (operation === "next") {
+      if (dif === 3 || dif === 2) paginate(e, currentPaginateSheet + 2);
+      else paginate(e, currentPaginateSheet + 3);
     }
     else {
-      if (currentPaginateSheet=== 3) paginate(e, currentPaginateSheet-2)
-      else paginate(e, currentPaginateSheet-3 )
+      if (currentPaginateSheet === 3) paginate(e, currentPaginateSheet - 2);
+      else paginate(e, currentPaginateSheet - 3);
     }
   }
 
@@ -100,13 +101,8 @@ export function App() {
   const currentItems = (competitionsData, page) => {
     const indexOfLastContest = currentPaginateSheet * itemsPerPaginateSheet;
     const indexOfFirstContest = indexOfLastContest - itemsPerPaginateSheet;
-    let filteredCompetitions;
-    if (page==="teams" || page==="competitions") {
-      filteredCompetitions = elemSearch(strInputValue, competitionsData);
-    }
-    else {
-      filteredCompetitions = competitionsData;
-    }
+    let filteredCompetitions = page === "teams" || page === "competitions" ?
+      elemSearch(strInputValue, competitionsData) : competitionsData;
     const currentContests = filteredCompetitions.slice(indexOfFirstContest, indexOfLastContest);
     const list = [currentContests, filteredCompetitions.length]
     return list
@@ -135,26 +131,16 @@ export function App() {
     changeGroupOfItems: changeGroupOfPaginateSheets
   }
 
-  let pageName = choosenPages[choosenPages.length-1]
-  pageName = pageName.slice(0,1).toUpperCase() + pageName.slice(1, pageName.length);
+  let pageName = choosenPages[choosenPages.length - 1]
+  pageName = pageName.slice(0, 1).toUpperCase() + pageName.slice(1, pageName.length);
 
   return (
     <div className="App">
       <Router>
-        <header className='breadcumbsContainer'>
-          <img src={ball} alt="ball"></img>
-<div className='breadcumbsItems'>
-          {choosenPages.map((item, index) => {
-            if (item === "competitions") {
-              return <Link to="/" key={index} onClick={(e) =>backToPreviousPage(e.target.outerText)}>{item}</Link>
-            }
-            else {
-              return <Link to={`/${item}`} key={index} onClick={(e) =>backToPreviousPage(e.target.outerText.substring(1, e.target.outerText.length))}><span className='slash'>/</span>{breadcumbs[index]}</Link>
-            }
-          }
-          )}
-</div>
-        </header>
+        <Breadcumps
+          choosenPages={choosenPages}
+          backToPreviousPage={backToPreviousPage}
+          breadcumbs={breadcumbs} />
         <h1>{pageName}</h1>
         <Routes>
           <Route path="/" element={<Competitions values={valuesForContestAndTeams} />}></Route>
@@ -162,7 +148,6 @@ export function App() {
           <Route path="/matches" element={<Matches values={valuesForMatches} />}></Route>
           <Route path="/teams/matches" element={<Teams values={valuesForContestAndTeams} />}></Route>
         </Routes>
-
       </Router>
     </div>
   )

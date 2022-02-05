@@ -4,6 +4,8 @@ $fontColor: #fff;
 $textShadow: 0px 4px 10px rgb(0, 0, 0);
 $btnBg: rgb(99, 98, 98);
 $btnBgHover: rgb(0, 0, 0);
+$imagesWidth: 60px;
+
 
 @mixin textStyle {
     color: $fontColor;
@@ -23,17 +25,42 @@ $btnBgHover: rgb(0, 0, 0);
     width: $btnWidth;
 }
 
+@mixin filters {
+    font-family: $fontFamilyText;
+    font-size: clamp(10px, 3vw, 18px);
+}
+
 body {
     margin: 0;
     background-image: url("../../images/bgImage.jpg");
     background-position: inherit;
     background-size: cover;
     background-attachment: fixed;
+    background-color: rgb(0, 0, 0);
 }
 
-.filterByName {
-    font-family: $fontFamilyText;
-    font-size: clamp(10px, 3vw, 18px);
+h2 {
+    @include textStyle();
+}
+
+.filter {
+    @include filters;
+}
+
+.filterLabel {
+    @include filters;
+    color: $fontColor;
+}
+
+.dateFiltersContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dateFilters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(100px, 200px));
 }
 
 h1 {
@@ -81,11 +108,10 @@ h1 {
             margin-right: 10px;
         }
     }
-    
+}
 
-    & img {
-        width: 60px;
-    }
+img {
+    width: $imagesWidth;
 }
 
 .resultsContainer {
@@ -103,25 +129,41 @@ h1 {
     }
 }
 
+.results {
+    padding: 1% 0;
+}
+
 .competitionItem {
     display: flex;
     flex-direction: column;
     align-items: inherit;
-    padding: 1% 0;
+
 
     & .aboutCompetition {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
 
-        & h2 {
-            @include textStyle();
-        }
-
         & p {
             @include textStyle();
         }
-    }
 
+    }
+}
+
+.teamItems {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & .aboutTeams {
+        display: grid;
+        grid-template-columns: repeat(2, 100px);
+        
+        & img {
+            margin: 10px;
+            align-self: center;
+        }
+    }
 }
 
 .pagination {

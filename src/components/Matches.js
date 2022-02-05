@@ -24,7 +24,7 @@ export function Matches({ values }) {
 
     return (
         <div>
-            <form>
+            <form className='dateFiltersContainer'>
                 <InputWithDates
                     changeValue={values.changeInputDateValue}
                     inputValue={values.inputDateFromValue}

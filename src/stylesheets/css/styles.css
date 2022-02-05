@@ -4,11 +4,35 @@ body {
   background-position: inherit;
   background-size: cover;
   background-attachment: fixed;
+  background-color: black;
 }
 
-.filterByName {
+h2 {
+  color: #fff;
+  font-family: "Noto Sans", sans-serif;
+  text-shadow: 0px 4px 10px black;
+}
+
+.filter {
   font-family: "Noto Sans", sans-serif;
   font-size: clamp(10px, 3vw, 18px);
+}
+
+.filterLabel {
+  font-family: "Noto Sans", sans-serif;
+  font-size: clamp(10px, 3vw, 18px);
+  color: #fff;
+}
+
+.dateFiltersContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dateFilters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(100px, 200px));
 }
 
 h1 {
@@ -57,7 +81,8 @@ h1 {
 .breadcumbsContainer .breadcumbsItems .slash {
   margin-right: 10px;
 }
-.breadcumbsContainer img {
+
+img {
   width: 60px;
 }
 
@@ -74,25 +99,37 @@ h1 {
   background-color: rgba(141, 139, 139, 0.637);
 }
 
+.results {
+  padding: 1% 0;
+}
+
 .competitionItem {
   display: flex;
   flex-direction: column;
   align-items: inherit;
-  padding: 1% 0;
 }
 .competitionItem .aboutCompetition {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
-.competitionItem .aboutCompetition h2 {
-  color: #fff;
-  font-family: "Noto Sans", sans-serif;
-  text-shadow: 0px 4px 10px black;
-}
 .competitionItem .aboutCompetition p {
   color: #fff;
   font-family: "Noto Sans", sans-serif;
   text-shadow: 0px 4px 10px black;
+}
+
+.teamItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.teamItems .aboutTeams {
+  display: grid;
+  grid-template-columns: repeat(2, 100px);
+}
+.teamItems .aboutTeams img {
+  margin: 10px;
+  align-self: center;
 }
 
 .pagination {
