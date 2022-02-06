@@ -1,50 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Pagination } from './Pagination';
 import { Data } from './Data';
 import { InputWithText } from './inputConponents/InputWithText';
+import { ReactReduxContext, useDispatch, useSelector } from 'react-redux';
+import { getCompetitionsList } from '../store/reducers';
 
-export function Competitions({ values }) {
 
-    const [competitionsData, setCompetitionsData] = useState([]);
-    const [loading, setLoading] = useState(false);
+export function Competitions() {
+
+    // const { store } = useContext(ReactReduxContext)
+    const dispatch = useDispatch();
+
+    const [sheetName] = useState('competitions');
+    const { data } = useSelector((sheets) => sheets[sheetName]);
+    const [baseSheet] = useState('base');
+    const { isLoading, isLoaded, search, currentPage, itemsPerPage } = useSelector((baseSheets) => baseSheets[baseSheet])
 
     useEffect(() => {
-        async function fetchData() {
-            const url = `http://api.football-data.org/v2/competitions/`;
-            const response = await fetch(url, {
-                headers: {
-                    "X-Auth-Token": "38bb37f55e8f4248b8833e690bf33edb"
-                }
-            });
-            setLoading(true);
-            const data = await response.json();
-            setLoading(false);
-            setCompetitionsData(data.competitions);
+        if (!isLoaded && !isLoading) {
+            dispatch(getCompetitionsList());
         }
-        fetchData()
+    })
 
-    }, [])
-
-    if (loading) {
-        return <h2>Loading...</h2>;
+    if (isLoading) {
+        return <h2 className='loading'>Loading...</h2>;
     }
+
+    let competitions = data;
+    if (search.value !== "") {
+        competitions = search.result;
+    }
+
+    const indexOfLastContest = currentPage * itemsPerPage;
+    const indexOfFirstContest = indexOfLastContest - itemsPerPage;
 
     return (
         <div>
+            <p>test</p>
             <InputWithText
-                changeInputValue={values.changeInputValue}
-                strInputValue={values.strInputValue} />
+                strInputValue={search.value}
+                data={data} />
             <div>
                 <Data
-                    currentElements={values.currentItems(competitionsData, "competitions")[0]}
-                    changePage={values.changePage}
+                    currentElements={competitions.slice(indexOfFirstContest, indexOfLastContest)}
                     componentName={"competitions"} />
                 <Pagination
-                    itemsPerPaginateSheet={values.itemsPerPaginateSheet}
-                    totalContests={values.currentItems(competitionsData, "competitions")[1]}
-                    paginate={values.paginate}
-                    currentPage={values.currentPaginateSheet}
-                    changeGroupOfItems={values.changeGroupOfItems}
+                    itemsPerPaginateSheet={itemsPerPage}
+                    totalContests={competitions.length}
+                    currentPage={currentPage}
                 />
             </div>
         </div>

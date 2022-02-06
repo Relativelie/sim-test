@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './stylesheets/App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Competitions } from './components/Competitions';
 import { Teams } from './components/Teams';
 import { Matches } from './components/Matches';
@@ -9,8 +9,8 @@ import { Breadcumps } from './components/Breadcumps';
 
 export function App() {
 
-  const [breadcumbs, setBreadcumbs] = useState(["competitions"]);
-  const [choosenPages, setChoosenPages] = useState(["competitions"])
+  const [breadcumbs, setBreadcumbs] = useState(["competitions", "teams"]);
+  const [choosenPages, setChoosenPages] = useState(["competitions", "teams"])
 
   // states for pagination
   const [currentPaginateSheet, setCurrentPaginateSheet] = useState(1);
@@ -143,7 +143,7 @@ export function App() {
           breadcumbs={breadcumbs} />
         <h1>{pageName}</h1>
         <Routes>
-          <Route path="/" element={<Competitions values={valuesForContestAndTeams} />}></Route>
+          <Route path="/" element={<Competitions />}></Route>
           <Route path="/teams" element={<Teams values={valuesForContestAndTeams} />}></Route>
           <Route path="/matches" element={<Matches values={valuesForMatches} />}></Route>
           <Route path="/teams/matches" element={<Teams values={valuesForContestAndTeams} />}></Route>

@@ -1,55 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Pagination } from './Pagination';
 import { Data } from './Data';
 import { InputWithText } from './inputConponents/InputWithText';
 
+import { ReactReduxContext, useDispatch, useSelector } from 'react-redux';
+import { getCompetitionsList } from '../store/reducers';
+import { getTeamsList } from '../store/reducers/teams';
 
-export function Teams({ values }) {
+
+export function Teams() {
 
 
-    const [teamsData, setTeamsData] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const { store } = useContext(ReactReduxContext)
+    const dispatch = useDispatch();
+
+    const [sheetName, setSheetName] = useState('teams');
+    const { isLoaded, isLoading, data, currentPage, search } = useSelector((sheets) => sheets[sheetName]);
 
     useEffect(() => {
-        async function fetchData() {
-            const url = `http://api.football-data.org/v2/competitions/2000/teams`;
-            const response = await fetch(url, {
-                headers: {
-                    "X-Auth-Token": "38bb37f55e8f4248b8833e690bf33edb"
-                }
-            });
-            setLoading(true);
-            const data = await response.json();
-            setLoading(false);
-            setTeamsData(data.teams);
+        if (!isLoaded) {
+            dispatch(getTeamsList());
         }
-        fetchData()
-
-    }, [])
+    })
 
 
-    if (loading) {
-        return <h2>Loading...</h2>;
+    if (isLoading) {
+        return <h2 class="loading">Loading...</h2>;
+    }
+
+    let teams = data;
+    if (search.value !== "") {
+        teams = search.result;
     }
 
     return (
         <div>
             <div>
                 <InputWithText
-                    changeInputValue={values.changeInputValue}
-                    strInputValue={values.strInputValue} />
+                    strInputValue={search.value} />
                 <div>
                     <Data
-                        currentElements={values.currentItems(teamsData, "teams")[0]}
-                        changePage={values.changePage}
+                        currentElements={teams.slice(0, 10)}
                         componentName={"teams"} />
-                    <Pagination
+                    {/* <Pagination
                         itemsPerPaginateSheet={values.itemsPerPaginateSheet}
                         totalContests={values.currentItems(teamsData, "teams")[1]}
                         paginate={values.paginate}
                         currentPage={values.currentPaginateSheet}
                         changeGroupOfItems={values.changeGroupOfItems}
-                    />
+                    /> */}
                 </div>
             </div>
         </div>

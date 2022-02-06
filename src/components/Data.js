@@ -18,8 +18,8 @@ export const Data = (props) => {
                             </div>
                         </div>
                         <div className='btnContainer'>
-                            <Link to="/teams"><button className="btn" onClick={() => props.changePage(name, "teams")}>Teams</button></Link>
-                            <Link to="/matches"><button className="btn" onClick={() => props.changePage(name, "matches")}>Matches</button></Link>
+                            {/* <Link to="/teams"><button className="btn" onClick={() => props.changePage(name, "teams")}>Teams</button></Link>
+                            <Link to="/matches"><button className="btn" onClick={() => props.changePage(name, "matches")}>Matches</button></Link> */}
                         </div>
                     </div>
                 }
