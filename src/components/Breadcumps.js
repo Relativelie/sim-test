@@ -1,26 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { ReactReduxContext, useDispatch, useSelector } from 'react-redux';
 import ball from '../images/ball.png';
 import { Link } from 'react-router-dom';
+import { changeLocation } from '../store/reducers';
+
 
 export const Breadcumps = (props) => {
+
+    const dispatch = useDispatch();
+    const [sheetName] = useState('base');
+    const { chosenLocation } = useSelector((sheets) => sheets[sheetName]);
 
     return <header className='breadcumbsContainer'>
         <img src={ball} alt="ball"></img>
         <div className='breadcumbsItems'>
-            {props.choosenPages.map((item, index) => {
-                if (item === "competitions") {
+            {chosenLocation.map((item, index) => {
+                if (item.type === "competitions") {
                     return (
                         <Link to="/" key={index}
-                            onClick={(e) => props.backToPreviousPage(e.target.outerText)}>
-                            {item}
+                            onClick={() => dispatch(changeLocation(item))}>
+                            {item.name}
                         </Link>)
                 }
                 else {
                     return (
-                        <Link to={`/${item}`} key={index}
-                            onClick={(e) => props.backToPreviousPage(e.target.outerText.substring(1, e.target.outerText.length))}>
+                        <Link to={`/${item.type}`} key={index}
+                            onClick={() => dispatch(changeLocation(item))}>
                             <span className='slash'>/</span>
-                            {props.breadcumbs[index]}
+                            {item.name}
                         </Link>)
                 }
             }

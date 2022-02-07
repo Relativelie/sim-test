@@ -15,37 +15,12 @@ const competitionsSlice = createSlice({
     name: 'competitions',
     initialState,
     reducers: {
-        // competitionsLoading: state => {
-        //     return {
-        //         ...state,
-        //     }
-        // },
         competitionsList: (state, action) => {
             return {
                 ...state,
                 data: action.payload
             }
-        },
-
-        // competitionsPageChanged: (state, { pageNumber }) => {
-        //     return {
-        //         ...state,
-        //         currentPage: pageNumber
-        //     }
-        // }, 
-
-        // searchCompetitions: (state, action) => {
-        //     let newItems = action.payload.data.filter(item => item.name.toLowerCase().includes(action.payload.value.toLowerCase()));
-
-        //     return {
-        //         ...state,
-        //         search: {
-        //             value: action.payload.value,
-        //             result: newItems
-        //         }
-        //     }
-        // },
-
+        }
     }
 })
 

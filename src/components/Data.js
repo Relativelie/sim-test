@@ -1,14 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ball from '../images/ball.png';
+import { useDispatch } from 'react-redux';
+import { changeLocation } from '../store/reducers';
+
 
 export const Data = (props) => {
+    const dispatch = useDispatch();
 
     return (
         <div className='resultsContainer'>
             {props.currentElements.map((item => {
                 if (props.componentName === "competitions") {
                     const { id, name, area, currentSeason } = item;
+                    console.log(props.id)
                     return <div className='results competitionItem' key={id}>
                         <div className='aboutCompetition'>
                             <h2>{name}</h2>
@@ -18,8 +23,8 @@ export const Data = (props) => {
                             </div>
                         </div>
                         <div className='btnContainer'>
-                            {/* <Link to="/teams"><button className="btn" onClick={() => props.changePage(name, "teams")}>Teams</button></Link>
-                            <Link to="/matches"><button className="btn" onClick={() => props.changePage(name, "matches")}>Matches</button></Link> */}
+                            <Link to={`/${id}/teams`}><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "teams"}))}>Teams</button></Link>
+                            <Link to="/matches"><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "matches"}))}>Matches</button></Link>
                         </div>
                     </div>
                 }
@@ -32,7 +37,7 @@ export const Data = (props) => {
                             <h2>{name}</h2>
                         </div>
                         <div className='btnContainer'>
-                            <Link to="/matches"><button className="btn" onClick={() => props.changePage(name, "matches")}>Matches</button></Link>
+                            <Link to="/matches"><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "matches"}))}>Matches</button></Link>
                         </div></div>
 
                 }

@@ -9,8 +9,8 @@ import { Breadcumps } from './components/Breadcumps';
 
 export function App() {
 
-  const [breadcumbs, setBreadcumbs] = useState(["competitions", "teams"]);
-  const [choosenPages, setChoosenPages] = useState(["competitions", "teams"])
+  const [breadcumbs, setBreadcumbs] = useState(["competitions"]);
+  const [choosenPages, setChoosenPages] = useState(["competitions"])
 
   // states for pagination
   const [currentPaginateSheet, setCurrentPaginateSheet] = useState(1);
@@ -27,6 +27,7 @@ export function App() {
   useEffect(() => {
     window.onpopstate = e => {
       let clicedValue = e.currentTarget.location.pathname;
+      console.log(clicedValue)
       clicedValue = clicedValue.substring(1, clicedValue.length);
       if (breadcumbs.indexOf(clicedValue) !== -1) {
         backToPreviousPage(clicedValue)
@@ -137,14 +138,11 @@ export function App() {
   return (
     <div className="App">
       <Router>
-        <Breadcumps
-          choosenPages={choosenPages}
-          backToPreviousPage={backToPreviousPage}
-          breadcumbs={breadcumbs} />
+        <Breadcumps />
         <h1>{pageName}</h1>
         <Routes>
           <Route path="/" element={<Competitions />}></Route>
-          <Route path="/teams" element={<Teams values={valuesForContestAndTeams} />}></Route>
+          <Route path="/:id/teams" element={<Teams values={valuesForContestAndTeams} />}></Route>
           <Route path="/matches" element={<Matches values={valuesForMatches} />}></Route>
           <Route path="/teams/matches" element={<Teams values={valuesForContestAndTeams} />}></Route>
         </Routes>

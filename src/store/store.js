@@ -9,7 +9,7 @@ const store = configureStore({
         //   competition: competitionReducer,
         competitions: rootReducer,
         //   team: teamReducer,
-          teams: teamsReducer,
+        teams: teamsReducer,
         //   matches: matchesReducer,
         base: baseReducer
     },
