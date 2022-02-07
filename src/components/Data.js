@@ -22,8 +22,8 @@ export const Data = (props) => {
                             </div>
                         </div>
                         <div className='btnContainer'>
-                            <Link to={`/${id}/teams`}><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "teams"}))}>Teams</button></Link>
-                            <Link to={`/${id}/matches`}><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "matches"}))}>Matches</button></Link>
+                            <Link to={`/${id}/teams`}><button className="btn" onClick={() => dispatch(changeLocation({ id: id, name: name, type: "teams" }))}>Teams</button></Link>
+                            <Link to={`/${id}/matches`}><button className="btn" onClick={() => dispatch(changeLocation({ id: id, name: name, type: "matches" }))}>Matches</button></Link>
                         </div>
                     </div>
                 }
@@ -32,18 +32,19 @@ export const Data = (props) => {
                     const { id, name, crestUrl } = item;
                     return <div className='results teamItems' key={id}>
                         <div className='aboutTeams'>
-                            {crestUrl !== "" ? <img src={crestUrl} alt="flag" /> : <img src={ball} alt="flag" />}
+                            {crestUrl != null ? <img src={crestUrl} alt="flag" /> : <img src={ball} alt="flag" />}
                             <h2>{name}</h2>
                         </div></div>
 
                 }
                 else {
                     const { id, season, awayTeam, homeTeam } = item;
-                    return <div key={id}>
-                        <p>{season.startDate}</p>
-                        <p>{season.endDate}</p>
+                    return <div className="results matchItems" key={id}>
                         <p>{awayTeam} vs {homeTeam}</p>
-                        <p></p>
+                        <div className='matchSeasons'>
+                            <p>Start season {season.startDate}</p>
+                            <p>End season {season.endDate}</p>
+                        </div>
                     </div>
                 }
             }))}

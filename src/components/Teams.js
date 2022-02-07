@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination } from './Pagination';
 import { Data } from './Data';
+import { Errors } from './Errors';
 import { InputWithText } from './inputConponents/InputWithText';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,7 +53,7 @@ export function Teams() {
         }
     })
     if (base.chosenLocation.length < 2) {
-        return <div><p>не удалось ffff</p></div>
+        return <Errors errorType={"wrongRequest"} />
     }
 
     if (isLoading) {
@@ -65,7 +66,7 @@ export function Teams() {
     }
 
     if (data.length === 0) {
-        return <div><p>не удалось</p></div>
+        return <Errors errorType={"systemError"} />
     }
 
     const indexOfLastContest = base.currentPage * base.itemsPerPage;

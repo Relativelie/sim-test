@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination } from './Pagination';
 import { Data } from './Data';
+import { Errors } from './Errors';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeLocation, getCompetitionsList } from '../store/reducers';
 import { useParams } from 'react-router-dom';
@@ -44,17 +45,18 @@ export function Matches({ values }) {
             else {
                 if (!isLoaded && !isLoading) {
                     const competitionId = base.chosenLocation[1].id;
-                     dispatch(getMatchesList(competitionId));
+                    dispatch(getMatchesList(competitionId));
                 }
             }
         }
     })
-    if (base.chosenLocation.length < 2) {
-        return <div><p>не удалось ffff</p></div>
-    }
 
     if (isLoading) {
         return <h2 className="loading">Loading...</h2>;
+    }
+
+    if (base.chosenLocation.length < 2) {
+        return <Errors errorType={"wrongRequest"} />
     }
 
     let matches = data;
@@ -62,8 +64,8 @@ export function Matches({ values }) {
         matches = base.search.result;
     }
 
-    if (data.length === 0) {
-        return <div><p>не удалось</p></div>
+    if (data.length === 0 && !isLoading) {
+        return <Errors errorType={"systemError"} />
     }
 
     const indexOfLastContest = base.currentPage * base.itemsPerPage;
@@ -72,7 +74,7 @@ export function Matches({ values }) {
 
     return (
         <div>
-        <h1>Matches</h1>
+            <h1>Matches</h1>
             <div>
                 <Data
                     currentElements={matches.slice(indexOfFirstContest, indexOfLastContest)}

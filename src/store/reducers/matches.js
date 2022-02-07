@@ -40,11 +40,11 @@ const { matchesLoading, matchesLoaded, matchesPageChanged, addDates } = matchesS
 
 
 export const getMatchesList = (id) => async dispatch => {
-    
+
     const url = `http://api.football-data.org//v2/competitions/${id}/matches`;
     const response = await fetch(url, {
         headers: {
-            "X-Auth-Token": "38bb37f55e8f4248b8833e690bf33edb"
+            "X-Auth-Token": `${process.env.REACT_APP_API_KEY}`
         }
     });
 

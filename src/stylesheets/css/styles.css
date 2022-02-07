@@ -7,10 +7,27 @@ body {
   background-color: black;
 }
 
+.App {
+  text-align: center;
+}
+
+.errors {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(90, 10, 10, 0.486);
+}
+.errors p {
+  color: #fff;
+  font-family: "Noto Sans", sans-serif;
+  text-shadow: 0px 4px 10px black;
+  font-size: clamp(10px, 3vw, 18px);
+}
+
 h2 {
   color: #fff;
   font-family: "Noto Sans", sans-serif;
   text-shadow: 0px 4px 10px black;
+  font-size: clamp(10px, 3vw, 20px);
 }
 
 .filter {
@@ -57,6 +74,7 @@ h1 {
   transition: all 0.5s ease;
   width: 100px;
   padding: 2% 0;
+  margin: 0 5px;
 }
 .btnContainer .btn:hover {
   background: black;
@@ -111,11 +129,13 @@ img {
 .competitionItem .aboutCompetition {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  align-items: center;
 }
 .competitionItem .aboutCompetition p {
   color: #fff;
   font-family: "Noto Sans", sans-serif;
   text-shadow: 0px 4px 10px black;
+  font-size: clamp(10px, 3vw, 18px);
 }
 
 .teamItems {
@@ -126,10 +146,33 @@ img {
 .teamItems .aboutTeams {
   display: grid;
   grid-template-columns: repeat(2, 100px);
+  align-items: center;
 }
 .teamItems .aboutTeams img {
   margin: 10px;
   align-self: center;
+}
+
+.matchItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.matchItems > p {
+  font-size: clamp(15px, 3vw, 21px);
+}
+.matchItems .matchSeasons {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.matchItems .matchSeasons p {
+  font-size: clamp(10px, 3vw, 18px);
+}
+.matchItems p {
+  color: #fff;
+  font-family: "Noto Sans", sans-serif;
+  text-shadow: 0px 4px 10px black;
 }
 
 .pagination {

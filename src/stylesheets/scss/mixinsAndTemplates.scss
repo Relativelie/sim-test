@@ -1,0 +1,31 @@
+$fontFamilyBreadcumbs: 'Open Sans', sans-serif;
+$fontFamilyText: 'Noto Sans', sans-serif;;
+$fontColor: #fff;
+$textShadow: 0px 4px 10px rgb(0, 0, 0);
+$btnBg: rgb(99, 98, 98);
+$btnBgHover: rgb(0, 0, 0);
+$imagesWidth: 60px;
+
+
+@mixin textStyle {
+    color: $fontColor;
+    font-family: $fontFamilyText;
+    text-shadow: $textShadow;
+}
+
+@mixin buttons($fontSize, $btnBorder, $btnTransition, $btnBorderRadius, $btnWidth) {
+    font-family: $fontFamilyText;
+    font-size: $fontSize;
+    cursor: pointer;
+    background-color: $btnBg;
+    color: $fontColor;
+    border-radius: $btnBorderRadius;
+    border: $btnBorder;
+    transition: $btnTransition;
+    width: $btnWidth;
+}
+
+@mixin filters {
+    font-family: $fontFamilyText;
+    font-size: clamp(10px, 3vw, 18px);
+}

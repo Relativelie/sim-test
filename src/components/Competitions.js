@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination } from './Pagination';
 import { Data } from './Data';
+import { Errors } from './Errors';
 import { InputWithText } from './inputConponents/InputWithText';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCompetitionsList } from '../store/reducers';
@@ -8,7 +9,6 @@ import { getCompetitionsList } from '../store/reducers';
 
 export function Competitions() {
 
-    // const { store } = useContext(ReactReduxContext)
     const dispatch = useDispatch();
 
     const [sheetName] = useState('competitions');
@@ -29,6 +29,10 @@ export function Competitions() {
     let competitions = data;
     if (search.value !== "") {
         competitions = search.result;
+    }
+
+    if (data.length === 0) {
+        return <Errors errorType={"systemError"} />
     }
 
     const indexOfLastContest = currentPage * itemsPerPage;
