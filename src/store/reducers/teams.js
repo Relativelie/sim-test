@@ -1,17 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
 import { createSlice } from '@reduxjs/toolkit';
-import { ReactReduxContext, useDispatch, useSelector } from 'react-redux';
-import { baseLoaded, baseLoading, changeLocation } from '.';
 
 const initialState = {
     isLoaded: false,
     isLoading: false,
-    data: [],
-    currentPage: 1,
-    search: {
-        value: "",
-        result: []
-    }
+    data: []
 }
 
 const teamsSlice = createSlice({
@@ -38,29 +30,18 @@ const teamsSlice = createSlice({
                 ...state,
                 currentPage: pageNumber
             }
-        },
-
-        searchTeams: (state, action) => {
-            let newItems = state.data.filter(item => item.name.toLowerCase().includes(action.payload.toLowerCase()));
-            return {
-                ...state,
-                search: {
-                    value: action.payload,
-                    result: newItems
-                }
-            }
         }
     }
 })
 
 
 
-const { teamsLoading, teamsLoaded, teamsPageChanged, searchTeams } = teamsSlice.actions;
+const { teamsLoading, teamsLoaded, teamsPageChanged } = teamsSlice.actions;
 
 
 
 export const getTeamsList = (id) => async dispatch => {
-    console.log('loading teams');
+
     const url = `http://api.football-data.org/v2/competitions/${id}/teams`;
     const response = await fetch(url, {
         headers: {
@@ -70,7 +51,6 @@ export const getTeamsList = (id) => async dispatch => {
     dispatch(teamsLoading());
     let data = await response.json();
     if ("errorCode" in data) {
-        console.log("data error");
         data = [];
     }
     else {
@@ -84,5 +64,5 @@ export const getTeamsList = (id) => async dispatch => {
     }
     dispatch(teamsLoaded(data));
 }
-export { teamsLoading, teamsLoaded, teamsPageChanged, searchTeams }
+export { teamsLoading, teamsLoaded, teamsPageChanged }
 export const teamsReducer = teamsSlice.reducer;

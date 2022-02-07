@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ball from '../images/ball.png';
 import { useDispatch } from 'react-redux';
 import { changeLocation } from '../store/reducers';
@@ -13,7 +13,6 @@ export const Data = (props) => {
             {props.currentElements.map((item => {
                 if (props.componentName === "competitions") {
                     const { id, name, area, currentSeason } = item;
-                    console.log(props.id)
                     return <div className='results competitionItem' key={id}>
                         <div className='aboutCompetition'>
                             <h2>{name}</h2>
@@ -24,7 +23,7 @@ export const Data = (props) => {
                         </div>
                         <div className='btnContainer'>
                             <Link to={`/${id}/teams`}><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "teams"}))}>Teams</button></Link>
-                            <Link to="/matches"><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "matches"}))}>Matches</button></Link>
+                            <Link to={`/${id}/matches`}><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "matches"}))}>Matches</button></Link>
                         </div>
                     </div>
                 }
@@ -35,9 +34,6 @@ export const Data = (props) => {
                         <div className='aboutTeams'>
                             {crestUrl !== "" ? <img src={crestUrl} alt="flag" /> : <img src={ball} alt="flag" />}
                             <h2>{name}</h2>
-                        </div>
-                        <div className='btnContainer'>
-                            <Link to="/matches"><button className="btn" onClick={() => dispatch(changeLocation({id: id, name: name, type: "matches"}))}>Matches</button></Link>
                         </div></div>
 
                 }
@@ -46,7 +42,7 @@ export const Data = (props) => {
                     return <div key={id}>
                         <p>{season.startDate}</p>
                         <p>{season.endDate}</p>
-                        <p>{awayTeam.name} vs {homeTeam.name}</p>
+                        <p>{awayTeam} vs {homeTeam}</p>
                         <p></p>
                     </div>
                 }

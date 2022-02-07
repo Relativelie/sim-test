@@ -1,23 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { baseLoaded, baseLoading } from '.';
 
 
 const initialState = {
+    isLoaded: false,
+    isLoading: false,
     data: []
-    // currentPage: 1,
-    // search: {
-    //     value: "",
-    //     result: []
-    // },
 }
 
 const competitionsSlice = createSlice({
     name: 'competitions',
     initialState,
     reducers: {
-        competitionsList: (state, action) => {
+        competitionsLoading: state => {
             return {
                 ...state,
+                isLoading: true
+            }
+        },
+        competitionsLoaded: (state, action) => {
+            return {
+                ...state,
+                isLoading: false,
+                isLoaded: true,
                 data: action.payload
             }
         }
@@ -26,7 +30,7 @@ const competitionsSlice = createSlice({
 
 
 
-const { competitionsPageChanged, searchCompetitions, competitionsList } = competitionsSlice.actions;
+const { competitionsPageChanged, searchCompetitions, competitionsLoading, competitionsLoaded } = competitionsSlice.actions;
 
 export const getCompetitionsList = () => async dispatch => {
     const url = `http://api.football-data.org/v2/competitions/`;
@@ -35,9 +39,8 @@ export const getCompetitionsList = () => async dispatch => {
             "X-Auth-Token": "38bb37f55e8f4248b8833e690bf33edb"
         }
     });
-    dispatch(baseLoading());
+    dispatch(competitionsLoading());
     let data = await response.json();
-    dispatch(baseLoaded())
     data = data.competitions.map((item => {
         return {
             id: item.id,
@@ -49,8 +52,8 @@ export const getCompetitionsList = () => async dispatch => {
             }
         }
     }))
-    dispatch(competitionsList(data));
+    dispatch(competitionsLoaded(data));
 }
 
-export { competitionsPageChanged, searchCompetitions }
+export { competitionsPageChanged, searchCompetitions, competitionsLoading, competitionsLoaded }
 export const rootReducer = competitionsSlice.reducer;

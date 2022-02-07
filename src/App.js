@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './stylesheets/App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Competitions } from './components/Competitions';
 import { Teams } from './components/Teams';
 import { Matches } from './components/Matches';
@@ -139,12 +139,10 @@ export function App() {
     <div className="App">
       <Router>
         <Breadcumps />
-        <h1>{pageName}</h1>
         <Routes>
           <Route path="/" element={<Competitions />}></Route>
           <Route path="/:id/teams" element={<Teams values={valuesForContestAndTeams} />}></Route>
-          <Route path="/matches" element={<Matches values={valuesForMatches} />}></Route>
-          <Route path="/teams/matches" element={<Teams values={valuesForContestAndTeams} />}></Route>
+          <Route path="/:id/matches" element={<Matches values={valuesForMatches} />}></Route>
         </Routes>
       </Router>
     </div>

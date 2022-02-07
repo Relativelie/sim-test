@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pagination } from './Pagination';
 import { Data } from './Data';
 import { InputWithText } from './inputConponents/InputWithText';
-import { ReactReduxContext, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCompetitionsList } from '../store/reducers';
 
 
@@ -12,9 +12,9 @@ export function Competitions() {
     const dispatch = useDispatch();
 
     const [sheetName] = useState('competitions');
-    const { data } = useSelector((sheets) => sheets[sheetName]);
+    const { data, isLoading, isLoaded, } = useSelector((sheets) => sheets[sheetName]);
     const [baseSheet] = useState('base');
-    const { isLoading, isLoaded, search, currentPage, itemsPerPage } = useSelector((baseSheets) => baseSheets[baseSheet])
+    const { search, currentPage, itemsPerPage } = useSelector((baseSheets) => baseSheets[baseSheet])
 
     useEffect(() => {
         if (!isLoaded && !isLoading) {
@@ -36,7 +36,7 @@ export function Competitions() {
 
     return (
         <div>
-            <p>test</p>
+            <h1>Competitions</h1>
             <InputWithText
                 strInputValue={search.value}
                 data={data} />

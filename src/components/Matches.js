@@ -1,50 +1,86 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination } from './Pagination';
 import { Data } from './Data';
-import { InputWithDates } from './inputConponents/InputWithDates';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeLocation, getCompetitionsList } from '../store/reducers';
+import { useParams } from 'react-router-dom';
+import { getMatchesList } from '../store/reducers/matches';
+
 
 export function Matches({ values }) {
-    const [matchesData, setMatchesData] = useState([]);
-    const [loading, setLoading] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const [competitionSheet] = useState('competitions');
+    const competitions = useSelector((sheets) => sheets[competitionSheet]);
+
+    const [sheetName] = useState('matches');
+    const { data, isLoaded, isLoading, valueFrom, valueTo } = useSelector((sheets) => sheets[sheetName]);
+
+    const [baseSheet] = useState('base');
+    const base = useSelector((baseSheets) => baseSheets[baseSheet])
+
+    let { id } = useParams();
+
 
     useEffect(() => {
-        async function fetchData() {
-            const url = `http://api.football-data.org//v2/competitions/2003/matches?dateFrom=2021-01-01&dateTo=2021-12-31`;
-            const response = await fetch(url, {
-                headers: {
-                    "X-Auth-Token": "38bb37f55e8f4248b8833e690bf33edb"
-                }
-            });
-            const data = await response.json();
-            setMatchesData(data.matches);
+        if (competitions.data.length === 0) {
+            if (!competitions.isLoaded && !competitions.isLoading) {
+                dispatch(getCompetitionsList(id))
+            }
         }
-        fetchData()
+        else {
+            if (base.chosenLocation.length < 2) {
+                for (let i = 0; i < competitions.data.length; i++) {
+                    if (competitions.data[i].id === parseInt(id)) {
+                        dispatch(changeLocation({
+                            type: "matches",
+                            name: competitions.data[i].name,
+                            id: competitions.data[i].id
+                        }));
+                    }
+                }
+            }
+            else {
+                if (!isLoaded && !isLoading) {
+                    const competitionId = base.chosenLocation[1].id;
+                     dispatch(getMatchesList(competitionId));
+                }
+            }
+        }
+    })
+    if (base.chosenLocation.length < 2) {
+        return <div><p>не удалось ffff</p></div>
+    }
 
-    }, [])
+    if (isLoading) {
+        return <h2 className="loading">Loading...</h2>;
+    }
+
+    let matches = data;
+    if (base.search.value !== "") {
+        matches = base.search.result;
+    }
+
+    if (data.length === 0) {
+        return <div><p>не удалось</p></div>
+    }
+
+    const indexOfLastContest = base.currentPage * base.itemsPerPage;
+    const indexOfFirstContest = indexOfLastContest - base.itemsPerPage;
+
 
     return (
         <div>
-            <form className='dateFiltersContainer'>
-                <InputWithDates
-                    changeValue={values.changeInputDateValue}
-                    inputValue={values.inputDateFromValue}
-                    inputType={"From"} />
-                <InputWithDates
-                    changeValue={values.changeInputDateValue}
-                    inputValue={values.inputDateToValue}
-                    inputType={"To"} />
-            </form>
+        <h1>Matches</h1>
             <div>
                 <Data
-                    currentElements={values.currentItems(matchesData)[0]}
-                    changePage={values.changePage}
+                    currentElements={matches.slice(indexOfFirstContest, indexOfLastContest)}
                     componentName={"matches"} />
                 <Pagination
-                    itemsPerPaginateSheet={values.itemsPerPaginateSheet}
-                    totalContests={values.currentItems(matchesData)[1]}
-                    paginate={values.paginate}
-                    currentPage={values.currentPaginateSheet}
-                    changeGroupOfItems={values.changeGroupOfItems}
+                    itemsPerPaginateSheet={base.itemsPerPage}
+                    totalContests={matches.length}
+                    currentPage={base.currentPage}
                 />
             </div>
         </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-// import { searchCompetitions } from '../../store/reducers';
 import { useDispatch } from 'react-redux';
 import { searchCompetitionsAndTeams } from '../../store/reducers';
 

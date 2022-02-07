@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ReactReduxContext, useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import {  useDispatch, useSelector } from 'react-redux';
 import ball from '../images/ball.png';
 import { Link } from 'react-router-dom';
 import { changeLocation } from '../store/reducers';
@@ -11,7 +11,7 @@ export const Breadcumps = (props) => {
     const [sheetName] = useState('base');
     const { chosenLocation } = useSelector((sheets) => sheets[sheetName]);
 
-    return <header className='breadcumbsContainer'>
+    return  <header className='breadcumbsContainer'>
         <img src={ball} alt="ball"></img>
         <div className='breadcumbsItems'>
             {chosenLocation.map((item, index) => {
@@ -24,7 +24,7 @@ export const Breadcumps = (props) => {
                 }
                 else {
                     return (
-                        <Link to={`/${item.type}`} key={index}
+                        <Link to={`/${item.id}/${item.type}`} key={index}
                             onClick={() => dispatch(changeLocation(item))}>
                             <span className='slash'>/</span>
                             {item.name}
@@ -33,5 +33,5 @@ export const Breadcumps = (props) => {
             }
             )}
         </div>
-    </header>;
+    </header>
 }

@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    isLoaded: false,
-    isLoading: false,
     currentPage: 1,
     search: {
         value: "",
@@ -21,20 +19,6 @@ const baseSlice = createSlice({
     name: 'base',
     initialState,
     reducers: {
-        baseLoading: state => {
-            return {
-                ...state,
-                isLoading: true
-            }
-        },
-
-        baseLoaded: state => {
-            return {
-                ...state,
-                isLoading: false,
-                isLoaded: true
-            }
-        },
 
         pageChanged: (state, { pageNumber }) => {
             return {
@@ -48,6 +32,7 @@ const baseSlice = createSlice({
 
             return {
                 ...state,
+                currentPage: 1,
                 search: {
                     value: action.payload.value,
                     result: newItems
@@ -55,8 +40,8 @@ const baseSlice = createSlice({
             }
         },
 
+
         changeCurrentPage: (state, action) => {
-            console.log(action)
 
             return {
                 ...state,
@@ -87,18 +72,21 @@ const baseSlice = createSlice({
                 chosenValue = chosenValue.slice(0, includedValue);
             }
             else chosenValue.push(action.payload);
-            console.log(chosenValue)
 
             return {
                 ...state,
-                chosenLocation: chosenValue
+                chosenLocation: chosenValue,
+                currentPage: 1,
+                search: {
+                    value: "",
+                    result: []
+                }
             }
-        },
-        
+        }
     }
 })
 
 
-const { baseLoading, baseLoaded, pageChanged, searchCompetitionsAndTeams, changeCurrentPage, changeGroupOfPage, changeLocation } = baseSlice.actions;
-export { baseLoading, baseLoaded, pageChanged, searchCompetitionsAndTeams, changeCurrentPage, changeGroupOfPage, changeLocation }
+const { baseLoading, baseLoaded, pageChanged, searchCompetitionsAndTeams, changeCurrentPage, changeGroupOfPage, changeLocation, searchMatches } = baseSlice.actions;
+export { baseLoading, baseLoaded, pageChanged, searchCompetitionsAndTeams, changeCurrentPage, changeGroupOfPage, changeLocation, searchMatches }
 export const baseReducer = baseSlice.reducer;
