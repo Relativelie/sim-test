@@ -2,7 +2,7 @@ On this site you can view European football competitions, teams and matches.
 
 Pages have pagination, filter by nam, react-router-dom (get-request is displayed in the address bar)
 
-![alt text](./src/images/screenshots/competitionsPage.png "Main page with competitions")
+![alt tag](./src/images/screenshots/competitionsPage.png "Main page with competitions")
 
 
 ![alt text](./src/images/screenshots/teamsPage.png "Page with teams")
