@@ -1,6 +1,6 @@
 On this site you can view European football competitions, teams and matches.
 
-Pages have pagination, filter by name, react-router-dom (*get-request is displayed in the address bar*)
+Pages have pagination, filter by name, react-router-dom (**get-request is displayed in the address bar**)
 
 <h2>Screenshots</h2>
 
