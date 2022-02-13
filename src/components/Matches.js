@@ -16,7 +16,7 @@ export function Matches({ values }) {
     const competitions = useSelector((sheets) => sheets[competitionSheet]);
 
     const [sheetName] = useState('matches');
-    const { data, isLoaded, isLoading, valueFrom, valueTo } = useSelector((sheets) => sheets[sheetName]);
+    const { data, isLoaded, isLoading } = useSelector((sheets) => sheets[sheetName]);
 
     const [baseSheet] = useState('base');
     const base = useSelector((baseSheets) => baseSheets[baseSheet])
